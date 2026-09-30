@@ -1,0 +1,29 @@
+#task 3:Car Price Prediction
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+#Data cleaning and reprocessing
+df=pd.read_csv(r'C:\Users\govhe\OneDrive\Documenten\car data.csv')
+df=df.drop(columns=['Car_Name'])
+df=pd.get_dummies(df,columns=['Fuel_Type','Selling_type','Transmission'])
+x=df.drop(columns=['Selling_Price'])
+y=df['Selling_Price']
+
+xtrain,xtest,ytrain,ytest=train_test_split(x,y,test_size=0.2,random_state=42)
+#Model training: Linear regression
+regr=LinearRegression()
+regr.fit(xtrain,ytrain)
+answer=regr.predict(xtest)
+
+#Comparing the prices: real vs predicted
+plt.figure()
+sns.scatterplot(x=ytest,y=answer,color="red",alpha=0.7,s=80)
+plt.xlabel('real price')
+plt.ylabel('predicted price')
+plt.title('comparison')
+plt.show()
+print("accuracy of model:",r2_score(ytest,answer))
