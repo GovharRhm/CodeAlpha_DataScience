@@ -1,0 +1,21 @@
+#task1: iris flower classification
+
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+df=pd.read_csv(r'C:\Users\govhe\OneDrive\Documenten\Iris.csv')\
+#data cleaning
+df=df.drop(columns=['Id'])
+x=df.drop(columns=['Species'])
+y=df['Species']
+
+#train-test split
+xtrain,xtest,ytrain,ytest=train_test_split(x,y,test_size=0.2,random_state=42)
+
+#model training with random forest 
+classif=RandomForestClassifier(n_estimators=100)
+classif.fit(xtrain,ytrain)
+answer=classif.predict(xtest)
+print("accuracy of model:",accuracy_score(ytest,answer))
