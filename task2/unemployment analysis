@@ -1,0 +1,36 @@
+#task2: Unemployment analysis with Python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read_csv(r'C:\Users\govhe\OneDrive\Documenten\Unemployment in India.csv')
+#data cleaning (dropping NaN values and unnecesary spaces)
+df=df.dropna()
+df.columns=df.columns.str.strip()
+df['Date']=pd.to_datetime(df['Date'],dayfirst=True)
+#1st comparisation
+plt.figure()
+sns.lineplot(data=df,x="Date",y="Estimated Unemployment Rate (%)")
+plt.xlabel('date')
+plt.ylabel('unemployment rate (%)')
+plt.title('unemployment over time')
+plt.show()
+
+#Graph of urban vs rural
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=df,x='Date',y='Estimated Unemployment Rate (%)',hue='Area')
+plt.title('Unemployment trend between rural and urban areas')
+plt.xlabel('Date')
+plt.ylabel('Unemployment rate')
+plt.grid(True)
+plt.show()
+
+#Unemployment rate over all regions
+plt.figure(figsize=(10, 8))
+sns.barplot(data=df,x='Estimated Unemployment Rate (%)',y='Region',errorbar=None)
+plt.title('Unemployment rate (%) over regions')
+plt.xlabel('Unemployment rate (%)')
+plt.ylabel('Region')
+plt.tight_layout()
+plt.show()
+
